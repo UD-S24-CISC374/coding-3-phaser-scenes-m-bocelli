@@ -1,21 +1,23 @@
 import Phaser from "phaser";
 import Ball from "../objects/ball";
 import Hole from "../objects/hole";
+import LocalScore from "../objects/localScore";
 
 export default class MainScene extends Phaser.Scene {
     ball: Ball;
     hole: Hole;
-    localScore: number;
+    localScore: LocalScore;
+    holeNum: number = 1;
+    localScoreText: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "MainScene" });
-        this.localScore = 0;
     }
 
     create() {
         this.add.image(
-            this.cameras.main.width / 2,
-            this.cameras.main.height / 2,
+            this.cameras.main.centerX,
+            this.cameras.main.centerY,
             "grass"
         );
         this.hole = new Hole(
@@ -24,22 +26,19 @@ export default class MainScene extends Phaser.Scene {
             this.cameras.main.height / 2
         );
         this.ball = new Ball(this, 100, this.cameras.main.height / 2);
-        this.physics.overlap(this.ball, this.hole, this.nextStage);
 
-        const message = "PUSH THE BALL WITH YOUR MOUSE";
-        this.add
-            .text(this.cameras.main.width / 2, 15, message, {
-                color: "white",
-                fontSize: "24px",
-                backgroundColor: "black",
-            })
-            .setOrigin(0.5, 0);
-
+        this.physics.overlap(
+            this.ball,
+            this.hole,
+            this.nextStage,
+            undefined,
+            null
+        );
         this.add
             .text(
-                this.cameras.main.width / 2 - 500,
-                50,
-                `Hole: ${this.localScore}`,
+                this.cameras.main.width / 2,
+                15,
+                "PUSH THE BALL INTO THE HOLE W/ FEWEST STROKES",
                 {
                     color: "white",
                     fontSize: "24px",
@@ -47,12 +46,12 @@ export default class MainScene extends Phaser.Scene {
                 }
             )
             .setOrigin(0.5, 0);
-
+        this.localScore = new LocalScore(this, this.cameras.main.width / 2, 50);
         this.add
             .text(
-                this.cameras.main.width / 2,
+                this.cameras.main.width / 2 - 500,
                 50,
-                `Strokes: ${this.localScore}`,
+                `Hole: ${this.holeNum}`,
                 {
                     color: "white",
                     fontSize: "24px",
@@ -65,7 +64,7 @@ export default class MainScene extends Phaser.Scene {
             .text(
                 this.cameras.main.width / 2 + 500,
                 50,
-                `Total Strokes: ${this.localScore}`,
+                `Total Strokes: ${this.ball.strokes}`,
                 {
                     color: "white",
                     fontSize: "24px",
@@ -76,8 +75,10 @@ export default class MainScene extends Phaser.Scene {
     }
 
     nextStage() {
-        console.log("go");
+        console.log("gooooooo");
     }
 
-    update() {}
+    update() {
+        this.localScore.update();
+    }
 }
