@@ -21,19 +21,17 @@ export default class MainScene extends Phaser.Scene {
             this.cameras.main.centerY,
             "grass1"
         );
-        this.hole = new Hole(
-            this,
-            this.cameras.main.width - 1000,
-            this.cameras.main.height / 2
-        );
+
+        this.hole = new Hole(this, 300, this.cameras.main.height / 2);
+
         this.ball = new Ball(this, 100, this.cameras.main.height / 2);
 
         this.physics.overlap(
-            this.hole,
             this.ball,
+            this.hole,
             this.nextStage,
             undefined,
-            null
+            this
         );
     }
 
@@ -41,5 +39,12 @@ export default class MainScene extends Phaser.Scene {
         console.log("gooooooo");
     }
 
-    update() {}
+    update() {
+        console.log(
+            `${this.input.mousePointer.x.toFixed(
+                0
+            )} : ${this.input.mousePointer.y.toFixed(0)}`
+        );
+        console.log(`${this.ball.x} : ${this.ball.y}`);
+    }
 }
