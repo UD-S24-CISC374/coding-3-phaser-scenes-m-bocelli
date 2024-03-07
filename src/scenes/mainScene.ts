@@ -26,7 +26,7 @@ export default class MainScene extends Phaser.Scene {
 
         this.ball = new Ball(this, 100, this.cameras.main.height / 2);
 
-        this.physics.overlap(
+        this.physics.add.overlap(
             this.ball,
             this.hole,
             this.nextStage,
@@ -36,7 +36,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     nextStage() {
-        console.log("gooooooo");
+        console.log("weixin ma");
     }
 
     update() {
