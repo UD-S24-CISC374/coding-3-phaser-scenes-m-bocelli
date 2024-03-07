@@ -15,6 +15,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     create() {
+        console.log(this.scene.manager.keys);
         this.add.image(
             this.cameras.main.centerX,
             this.cameras.main.centerY,
@@ -28,57 +29,17 @@ export default class MainScene extends Phaser.Scene {
         this.ball = new Ball(this, 100, this.cameras.main.height / 2);
 
         this.physics.overlap(
-            this.ball,
             this.hole,
+            this.ball,
             this.nextStage,
             undefined,
             null
         );
-        this.add
-            .text(
-                this.cameras.main.width / 2,
-                15,
-                "PUSH THE BALL INTO THE HOLE W/ FEWEST STROKES",
-                {
-                    color: "white",
-                    fontSize: "24px",
-                    backgroundColor: "black",
-                }
-            )
-            .setOrigin(0.5, 0);
-        this.localScore = new LocalScore(this, this.cameras.main.width / 2, 50);
-        this.add
-            .text(
-                this.cameras.main.width / 2 - 500,
-                50,
-                `Hole: ${this.holeNum}`,
-                {
-                    color: "white",
-                    fontSize: "24px",
-                    backgroundColor: "black",
-                }
-            )
-            .setOrigin(0.5, 0);
-
-        this.add
-            .text(
-                this.cameras.main.width / 2 + 500,
-                50,
-                `Total Strokes: ${this.ball.strokes}`,
-                {
-                    color: "white",
-                    fontSize: "24px",
-                    backgroundColor: "black",
-                }
-            )
-            .setOrigin(0.5, 0);
     }
 
     nextStage() {
         console.log("gooooooo");
     }
 
-    update() {
-        this.localScore.update();
-    }
+    update() {}
 }
