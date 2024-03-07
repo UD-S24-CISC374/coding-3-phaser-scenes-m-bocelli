@@ -18,7 +18,7 @@ export default class MainScene extends Phaser.Scene {
         this.add.image(
             this.cameras.main.centerX,
             this.cameras.main.centerY,
-            "grass"
+            "grass1"
         );
         this.hole = new Hole(
             this,
