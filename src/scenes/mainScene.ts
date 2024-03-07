@@ -40,11 +40,14 @@ export default class MainScene extends Phaser.Scene {
     }
 
     update() {
+        /*
+        Movement debugging
         console.log(
             `${this.input.mousePointer.x.toFixed(
                 0
             )} : ${this.input.mousePointer.y.toFixed(0)}`
         );
         console.log(`${this.ball.x} : ${this.ball.y}`);
+        */
     }
 }
