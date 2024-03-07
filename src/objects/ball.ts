@@ -11,13 +11,13 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true)
             .setBounce(0.8)
             .setInteractive()
-            .on("pointermove", this.pointerPush);
+            .on("pointermove", this.moveBall);
         this.setDamping(true);
         this.setDrag(0.5);
     }
 
     // Movement defined by where the user's pointer touches the ball
-    pointerPush(pointer: Phaser.Input.Pointer) {
+    moveBall(pointer: Phaser.Input.Pointer) {
         const offset = 30; // 30px padding to hit the ball
         if (pointer.x < this.x - offset) {
             // hit left side
