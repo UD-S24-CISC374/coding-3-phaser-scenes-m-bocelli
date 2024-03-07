@@ -1,28 +1,34 @@
 import Phaser from "phaser";
-import PhaserLogo from "../objects/phaserLogo";
-import FpsText from "../objects/fpsText";
+import Ball from "../objects/ball";
 
 export default class MainScene extends Phaser.Scene {
-    fpsText: FpsText;
+    ball: Ball;
 
     constructor() {
         super({ key: "MainScene" });
     }
 
     create() {
-        new PhaserLogo(this, this.cameras.main.width / 2, 0);
-        this.fpsText = new FpsText(this);
+        this.add.image(
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 2,
+            "grass"
+        );
+        this.ball = new Ball(this, this.cameras.main.width / 2, 0);
 
-        const message = `Phaser v${Phaser.VERSION}`;
+        const message = "PUSH THE BALL WITH YOUR MOUSE";
         this.add
-            .text(this.cameras.main.width - 15, 15, message, {
-                color: "#000000",
+            .text(this.cameras.main.width / 2, 15, message, {
+                color: "white",
                 fontSize: "24px",
+                backgroundColor: "black",
             })
             .setOrigin(1, 0);
     }
 
     update() {
-        this.fpsText.update();
+        if (this.ball.x > 800) {
+            console.log(this.game.getFrame());
+        }
     }
 }

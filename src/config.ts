@@ -21,8 +21,8 @@ export const CONFIG = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: false,
-            gravity: { y: 300 },
+            debug: true,
+            gravity: { y: 0 },
         },
     },
     input: {
@@ -32,7 +32,7 @@ export const CONFIG = {
         gamepad: false,
     },
     render: {
-        pixelArt: false,
+        pixelArt: true,
         antialias: true,
     },
 };
