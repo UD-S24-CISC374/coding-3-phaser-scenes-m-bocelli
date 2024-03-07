@@ -7,10 +7,11 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
 
         this.setCollideWorldBounds(true)
-            .setScale(0.25, 0.25)
             .setBounce(0.6)
             .setInteractive()
             .on("pointermove", this.pointerPush);
+        this.setDamping(true);
+        this.setDrag(0.5);
     }
 
     pointerPush(pointer: Phaser.Input.Pointer) {

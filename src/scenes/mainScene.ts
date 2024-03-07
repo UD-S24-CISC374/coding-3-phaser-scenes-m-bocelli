@@ -14,7 +14,7 @@ export default class MainScene extends Phaser.Scene {
             this.cameras.main.height / 2,
             "grass"
         );
-        this.ball = new Ball(this, this.cameras.main.width / 2, 0);
+        this.ball = new Ball(this, 100, this.cameras.main.height / 2);
 
         const message = "PUSH THE BALL WITH YOUR MOUSE";
         this.add
@@ -23,7 +23,7 @@ export default class MainScene extends Phaser.Scene {
                 fontSize: "24px",
                 backgroundColor: "black",
             })
-            .setOrigin(1, 0);
+            .setOrigin(0.5, 0);
     }
 
     update() {
