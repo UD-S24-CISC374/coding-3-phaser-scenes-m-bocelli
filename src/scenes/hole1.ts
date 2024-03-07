@@ -14,6 +14,12 @@ export default class Hole1 extends Phaser.Scene {
     }
 
     create() {
+        this.add.image(
+            this.cameras.main.centerX,
+            this.cameras.main.centerY,
+            "grass1"
+        );
+
         this.hole = new Hole(this, 300, this.cameras.main.height / 2);
         this.ball = new Ball(this, 100, this.cameras.main.height / 2);
 
@@ -24,14 +30,9 @@ export default class Hole1 extends Phaser.Scene {
             undefined,
             this
         );
-        this.add.image(
-            this.cameras.main.centerX,
-            this.cameras.main.centerY,
-            "grass1"
-        );
     }
 
     nextStage() {
-        console.log("hi");
+        this.scene.start("Hole2");
     }
 }
