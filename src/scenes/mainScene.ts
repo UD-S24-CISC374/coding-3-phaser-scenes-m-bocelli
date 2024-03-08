@@ -2,16 +2,14 @@ import Phaser from "phaser";
 
 export default class MainScene extends Phaser.Scene {
     totalStrokes: number = 0;
-    bestScore: string | null = "0";
+    bestScore: string = "0";
 
     constructor() {
         super({ key: "MainScene" });
     }
 
     init() {
-        if (localStorage.getItem("bestScore")) {
-            this.bestScore = localStorage.getItem("bestScore");
-        }
+        this.bestScore = localStorage.getItem("bestScore") || "0";
     }
 
     create() {

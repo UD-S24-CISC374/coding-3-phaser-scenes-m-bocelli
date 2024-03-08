@@ -3,6 +3,7 @@ import Ball from "../objects/ball";
 
 export default class Hole1 extends Phaser.Scene {
     ball: Ball;
+    bestScore: string;
 
     constructor() {
         super({ key: "GameOver" });
@@ -10,9 +11,15 @@ export default class Hole1 extends Phaser.Scene {
 
     init() {
         this.scene.stop("Gui");
+        this.bestScore = localStorage.getItem("bestScore") || "999";
     }
 
-    create(globalState: { totalScore: number }) {
+    create(sceneData: { totalStrokes: number }) {
+        if (parseInt(this.bestScore) > sceneData.totalStrokes) {
+            this.bestScore = "" + sceneData.totalStrokes;
+            localStorage.setItem("bestScore", `${sceneData.totalStrokes}`);
+        }
+
         this.add
             .image(
                 this.cameras.main.centerX,
@@ -29,6 +36,32 @@ export default class Hole1 extends Phaser.Scene {
         this.add
             .text(
                 this.cameras.main.centerX,
+                this.cameras.main.centerY - 200,
+                "Best Strokes: " + this.bestScore,
+                {
+                    color: "#ffff",
+                    fontSize: "4rem",
+                    backgroundColor: "#afeeee",
+                }
+            )
+            .setOrigin(0.5);
+
+        this.add
+            .text(
+                this.cameras.main.centerX,
+                50,
+                `Round Strokes: ${sceneData.totalStrokes}`,
+                {
+                    color: "#ffff",
+                    fontSize: "4rem",
+                    backgroundColor: "#afeeee",
+                }
+            )
+            .setOrigin(0.5);
+
+        this.add
+            .text(
+                this.cameras.main.centerX,
                 this.cameras.main.centerY - 90,
                 "REPLAY",
                 {
@@ -40,14 +73,6 @@ export default class Hole1 extends Phaser.Scene {
             .setOrigin(0.5)
             .setInteractive()
             .on("pointerdown", () => {
-                globalState.totalScore >
-                parseInt(localStorage.getItem("bestScore") || "0")
-                    ? localStorage.setItem(
-                          "bestScore",
-                          `${globalState.totalScore}`
-                      )
-                    : null;
-                globalState.totalScore = 0;
                 this.scene.start("Hole1");
             });
 
@@ -65,14 +90,6 @@ export default class Hole1 extends Phaser.Scene {
             .setOrigin(0.5)
             .setInteractive()
             .on("pointerdown", () => {
-                globalState.totalScore >
-                parseInt(localStorage.getItem("bestScore") || "0")
-                    ? localStorage.setItem(
-                          "bestScore",
-                          `${globalState.totalScore}`
-                      )
-                    : null;
-                globalState.totalScore = 0;
                 this.scene.start("MainScene");
             });
     }

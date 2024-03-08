@@ -23,14 +23,6 @@ export default class Gui extends Phaser.Scene {
             )
             .setOrigin(0.5, 0);
 
-        this.holeNumber = this.add
-            .text(this.cameras.main.width / 2 - 500, 50, "Hole: 1", {
-                color: "white",
-                fontSize: "24px",
-                backgroundColor: "black",
-            })
-            .setOrigin(0.5, 0);
-
         this.totalScore = this.add
             .text(this.cameras.main.width / 2 + 500, 50, "Total Strokes: 0", {
                 color: "white",
@@ -46,11 +38,19 @@ export default class Gui extends Phaser.Scene {
                 backgroundColor: "black",
             })
             .setOrigin(0.5, 0);
+
+        this.holeNumber = this.add
+            .text(this.cameras.main.width / 2 - 500, 50, "Hole: 1", {
+                color: "white",
+                fontSize: "24px",
+                backgroundColor: "black",
+            })
+            .setOrigin(0.5, 0);
     }
 
     updateStrokes(localStrokes: number, totalStrokes: number) {
         this.localScore.setText(`Strokes: ${localStrokes}`);
-        this.localScore.setText(`Strokes: ${totalStrokes}`);
+        this.totalScore.setText(`Total Strokes: ${totalStrokes}`);
     }
 
     updateHoleNumber(hole: number) {

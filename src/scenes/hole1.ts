@@ -15,11 +15,11 @@ export default class Hole1 extends Phaser.Scene {
 
     init() {
         this.scene.launch("Gui");
+        this.gui = this.scene.get("Gui") as Gui;
     }
 
     create(sceneData: { totalStrokes: number }) {
         this.prevStrokes = sceneData.totalStrokes;
-        this.gui = this.scene.get("Gui") as Gui;
         this.add.image(
             this.cameras.main.centerX,
             this.cameras.main.centerY,
@@ -43,22 +43,20 @@ export default class Hole1 extends Phaser.Scene {
         this.physics.add.overlap(
             this.ball,
             this.hole,
-            () => {
-                this.nextStage(sceneData.totalStrokes);
-            },
+            this.nextStage,
             undefined,
             this
         );
     }
 
-    nextStage(totalStrokes: number) {
-        totalStrokes += this.ball.strokes;
+    nextStage() {
         this.scene.start("Hole2", {
-            totalStrokes: totalStrokes,
+            totalStrokes: this.ball.strokes + this.prevStrokes,
         });
     }
 
     update() {
+        this.gui.updateHoleNumber(1);
         this.gui.updateStrokes(
             this.ball.strokes,
             this.ball.strokes + this.prevStrokes
