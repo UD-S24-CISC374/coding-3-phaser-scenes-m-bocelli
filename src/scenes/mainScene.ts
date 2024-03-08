@@ -2,7 +2,7 @@ import Phaser from "phaser";
 
 export default class MainScene extends Phaser.Scene {
     totalStrokes: number;
-    bestScore: string | null;
+    bestScore: string | null = "0";
 
     constructor() {
         super({ key: "MainScene" });
@@ -41,7 +41,7 @@ export default class MainScene extends Phaser.Scene {
                   .text(
                       this.cameras.main.centerX,
                       this.cameras.main.centerY - 200,
-                      "Best Score: ",
+                      "Best Score: " + this.bestScore,
                       {
                           color: "#ffff",
                           fontSize: "3rem",
