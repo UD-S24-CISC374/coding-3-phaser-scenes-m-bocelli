@@ -1,28 +1,69 @@
 import Phaser from "phaser";
-import PhaserLogo from "../objects/phaserLogo";
-import FpsText from "../objects/fpsText";
 
 export default class MainScene extends Phaser.Scene {
-    fpsText: FpsText;
+    totalStrokes: number = 0;
+    bestScore: string = "0";
 
     constructor() {
         super({ key: "MainScene" });
     }
 
-    create() {
-        new PhaserLogo(this, this.cameras.main.width / 2, 0);
-        this.fpsText = new FpsText(this);
-
-        const message = `Phaser v${Phaser.VERSION}`;
-        this.add
-            .text(this.cameras.main.width - 15, 15, message, {
-                color: "#000000",
-                fontSize: "24px",
-            })
-            .setOrigin(1, 0);
+    init() {
+        this.bestScore = localStorage.getItem("bestScore") || "0";
     }
 
-    update() {
-        this.fpsText.update();
+    create() {
+        this.add
+            .image(
+                this.cameras.main.centerX,
+                this.cameras.main.centerY,
+                "grass1"
+            )
+            .setAlpha(0.5);
+
+        this.add
+            .text(
+                this.cameras.main.centerX,
+                this.cameras.main.centerY - 300,
+                "BART GOLF",
+                {
+                    color: "#ffff",
+                    fontSize: "5rem",
+                    backgroundColor: "#afeeee",
+                }
+            )
+            .setOrigin(0.5);
+
+        this.bestScore
+            ? this.add
+                  .text(
+                      this.cameras.main.centerX,
+                      this.cameras.main.centerY - 200,
+                      "Best Score: " + this.bestScore,
+                      {
+                          color: "#ffff",
+                          fontSize: "3rem",
+                          backgroundColor: "#afeeee",
+                      }
+                  )
+                  .setOrigin(0.5)
+            : null;
+
+        this.add
+            .text(
+                this.cameras.main.centerX,
+                this.cameras.main.centerY,
+                "PLAY",
+                {
+                    color: "#ffff",
+                    fontSize: "4rem",
+                    backgroundColor: "#afeeee",
+                }
+            )
+            .setOrigin(0.5)
+            .setInteractive()
+            .on("pointerdown", () =>
+                this.scene.start("Hole1", { totalStrokes: this.totalStrokes })
+            );
     }
 }
