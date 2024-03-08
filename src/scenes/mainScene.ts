@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 export default class MainScene extends Phaser.Scene {
-    totalStrokes: number;
+    totalStrokes: number = 0;
     bestScore: string | null = "0";
 
     constructor() {
@@ -64,6 +64,8 @@ export default class MainScene extends Phaser.Scene {
             )
             .setOrigin(0.5)
             .setInteractive()
-            .on("pointerdown", () => this.scene.start("Hole1"));
+            .on("pointerdown", () =>
+                this.scene.start("Hole1", { totalStrokes: this.totalStrokes })
+            );
     }
 }

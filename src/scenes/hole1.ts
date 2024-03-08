@@ -1,12 +1,14 @@
 import Phaser from "phaser";
 import Ball from "../objects/ball";
 import Hole from "../objects/hole";
-import LocalScore from "../objects/localScore";
+import Gui from "./gui";
 
 export default class Hole1 extends Phaser.Scene {
     ball: Ball;
     hole: Hole;
-    localScore: LocalScore;
+    gui: Gui;
+    prevStrokes: number = 0;
+
     constructor() {
         super({ key: "Hole1" });
     }
@@ -15,7 +17,9 @@ export default class Hole1 extends Phaser.Scene {
         this.scene.launch("Gui");
     }
 
-    create() {
+    create(sceneData: { totalStrokes: number }) {
+        this.prevStrokes = sceneData.totalStrokes;
+        this.gui = this.scene.get("Gui") as Gui;
         this.add.image(
             this.cameras.main.centerX,
             this.cameras.main.centerY,
@@ -36,26 +40,28 @@ export default class Hole1 extends Phaser.Scene {
             Phaser.Math.Between(120, 600)
         );
 
-        this.localScore = new LocalScore(
-            this,
-            this.cameras.main.centerX,
-            this.cameras.main.centerY
-        );
-
         this.physics.add.overlap(
             this.ball,
             this.hole,
-            this.nextStage,
+            () => {
+                this.nextStage(sceneData.totalStrokes);
+            },
             undefined,
             this
         );
     }
 
-    nextStage() {
-        this.scene.start("Hole2");
+    nextStage(totalStrokes: number) {
+        totalStrokes += this.ball.strokes;
+        this.scene.start("Hole2", {
+            totalStrokes: totalStrokes,
+        });
     }
 
     update() {
-        this.localScore.update(this.ball.strokes);
+        this.gui.updateStrokes(
+            this.ball.strokes,
+            this.ball.strokes + this.prevStrokes
+        );
     }
 }
