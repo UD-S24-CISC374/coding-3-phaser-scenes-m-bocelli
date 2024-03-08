@@ -1,10 +1,12 @@
 import Phaser from "phaser";
 import Ball from "../objects/ball";
 import Hole from "../objects/hole";
+import LocalScore from "../objects/localScore";
 
 export default class Hole1 extends Phaser.Scene {
     ball: Ball;
     hole: Hole;
+    localScore: LocalScore;
     constructor() {
         super({ key: "Hole1" });
     }
@@ -20,8 +22,25 @@ export default class Hole1 extends Phaser.Scene {
             "grass1"
         );
 
-        this.hole = new Hole(this, 300, this.cameras.main.height / 2);
-        this.ball = new Ball(this, 100, this.cameras.main.height / 2);
+        this.hole = new Hole(
+            this,
+            Phaser.Math.Between(
+                this.cameras.main.width - 400,
+                this.cameras.main.width - 100
+            ),
+            Phaser.Math.Between(120, 600)
+        );
+        this.ball = new Ball(
+            this,
+            Phaser.Math.Between(100, 300),
+            Phaser.Math.Between(120, 600)
+        );
+
+        this.localScore = new LocalScore(
+            this,
+            this.cameras.main.centerX,
+            this.cameras.main.centerY
+        );
 
         this.physics.add.overlap(
             this.ball,
@@ -34,5 +53,9 @@ export default class Hole1 extends Phaser.Scene {
 
     nextStage() {
         this.scene.start("Hole2");
+    }
+
+    update() {
+        this.localScore.update(this.ball.strokes);
     }
 }
